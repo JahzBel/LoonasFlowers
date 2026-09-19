@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loona's Yellow Flower</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="panel.css">
+    <script src="main.js" defer></script>
+    
+</head>
+<body>
+
+    <main class="access-panel">
+        
+
+        <!-- Título principal e instrucciones de texto -->
+        <div class="panel-title">
+            <h1>PROPUESTA DE INVERSION EN UN FUTURO SOÑADO. INGRESE LA CLAVE</h1>
+            <p>FECHA DE NACIMIENTO</p>
+        </div>
+
+        <!-- Espacio para el Formato de introducción de clave -->
+        <div class="format-badge">
+            DDMM
+        </div>
+
+        <!-- Pantalla de dígitos con texto inicial estático *** -->
+        <div class="display-screen">
+            <div class="display-digits" id="inputDisplay">***</div>
+        </div>
+
+        <!-- Rejilla de 12 Botones (3x4) -->
+        <div class="keypad-grid">
+            <button type="button" class="keypad-btn" onclick="enterDigit('1')">1</button>
+            <button type="button" class="keypad-btn" onclick="enterDigit('2')">2</button>
+            <button type="button" class="keypad-btn" onclick="enterDigit('3')">3</button>
+            
+            <button type="button" class="keypad-btn" onclick="enterDigit('4')">4</button>
+            <button type="button" class="keypad-btn" onclick="enterDigit('5')">5</button>
+            <button type="button" class="keypad-btn" onclick="enterDigit('6')">6</button>
+            
+            <button type="button" class="keypad-btn" onclick="enterDigit('7')">7</button>
+            <button type="button" class="keypad-btn" onclick="enterDigit('8')">8</button>
+            <button type="button" class="keypad-btn" onclick="enterDigit('9')">9</button>
+            
+            <button type="button" class="keypad-btn btn-clear" onclick="clearInput()">BORRAR</button>
+            <button type="button" class="keypad-btn" onclick="enterDigit('0')">0</button>
+            <button type="button" class="keypad-btn btn-accept" onclick="submitInput()">ACEPTAR</button>
+        </div>
+
+    </main>
+</body>
+</html>

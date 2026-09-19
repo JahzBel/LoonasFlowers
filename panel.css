@@ -1,0 +1,324 @@
+@import url('tulipan.css');
+:root {
+    /* Variables de color para gradientes y fondos */
+    --bg-gradient-start: #2d1d4e;
+    --bg-gradient-mid: #6c496d;
+    --bg-gradient-end: #24173f;
+
+    --panel-bg: var(--bg-gradient-start);
+    --panel-border-color: #B5B4DC;
+    --panel-shadow-color: #A9CCE3;
+
+    /* Colores de interfaz táctil y luces LED */
+    --accent-cyan: #00f0ff;
+    --accent-blue: #3b82f6;
+    --accent-green: #00ff88;
+    --accent-red: #ff3366;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+
+    /* Botones */
+    --btn-bg: rgba(30, 41, 59, 0.7);
+    --btn-border: rgba(255, 255, 255, 0.1);
+    --btn-hover-bg: rgba(0, 240, 255, 0.15);
+    --btn-hover-border: #00f0ff;
+    --btn-shadow: rgba(0, 0, 0, 0.5);
+
+    /* Botones especiales */
+    --btn-clear-bg: rgba(255, 51, 102, 0.15);
+    --btn-clear-border: #ff3366;
+    --btn-accept-bg: rgba(0, 255, 136, 0.15);
+    --btn-accept-border: #00ff88;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Rajdhani', -apple-system, BlinkMacSystemFont, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to top, var(--bg-gradient-start) 0%, var(--bg-gradient-mid) 60%, var(--bg-gradient-end) 100%);
+    color: var(--text-primary);
+    overflow: hidden;
+    padding: 20px;
+    position: relative;
+}
+
+/* Patrón de cuadrícula futurista de fondo */
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.access-panel {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 420px;
+    background: var(--panel-bg);
+    border: 3px solid var(--panel-border-color);
+    border-radius: 20px;
+    box-shadow:
+        0 0 35px var(--panel-shadow-color),
+        inset 0 0 15px rgba(0, 240, 255, 0.1);
+    padding: 30px 25px;
+    backdrop-filter: blur(12px);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Indicador LED de Estado */
+.panel-header-status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.status-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--accent-cyan);
+    text-transform: uppercase;
+}
+
+.led-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--accent-cyan);
+    box-shadow: 0 0 10px var(--accent-cyan);
+    animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.4;
+        transform: scale(0.85);
+    }
+}
+
+.security-code {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.panel-title {
+    text-align: center;
+}
+
+.panel-title h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+    margin-bottom: 4px;
+}
+
+.panel-title p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+/* Campo de Formato de clave */
+.format-badge {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(0, 240, 255, 0.3);
+    border-radius: 8px;
+    padding: 8px 12px;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    letter-spacing: 1.5px;
+}
+
+.format-badge span {
+    color: var(--text-secondary);
+    font-weight: 500;
+    margin-right: 6px;
+}
+
+.display-screen {
+    background: #040810;
+    border: 2px solid rgba(0, 240, 255, 0.4);
+    border-radius: 12px;
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.9);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Efecto de línea de escáner en pantalla */
+.display-screen::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom,
+            transparent 50%,
+            rgba(0, 240, 255, 0.05) 51%);
+    background-size: 100% 4px;
+    pointer-events: none;
+}
+
+.display-digits {
+    font-family: 'Orbitron', monospace;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    letter-spacing: 8px;
+    text-shadow: 0 0 12px var(--accent-cyan);
+    user-select: none;
+}
+
+.display-label {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+    margin-top: 4px;
+    text-transform: uppercase;
+}
+
+.keypad-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.keypad-btn {
+    background: var(--btn-bg);
+    border: 1.5px solid var(--btn-border);
+    border-radius: 12px;
+    height: 60px;
+    color: var(--text-primary);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.15s ease;
+    box-shadow: 0 4px 6px var(--btn-shadow);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Efecto hover y active para simular touch */
+.keypad-btn:hover {
+    background: var(--btn-hover-bg);
+    border-color: var(--btn-hover-border);
+    color: var(--accent-cyan);
+    box-shadow: 0 0 12px rgba(0, 240, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.keypad-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px var(--btn-shadow);
+    background: rgba(0, 240, 255, 0.25);
+}
+
+/* Estilos específicos para Borrar y Aceptar */
+.btn-clear {
+    border-color: rgba(ff, 51, 102, 0.4);
+    color: var(--accent-red);
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+}
+
+.btn-clear:hover {
+    background: var(--btn-clear-bg);
+    border-color: var(--btn-clear-border);
+    color: var(--accent-red);
+    box-shadow: 0 0 12px rgba(255, 51, 102, 0.3);
+}
+
+.btn-accept {
+    border-color: rgba(0, 255, 136, 0.4);
+    color: var(--accent-green);
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+}
+
+.btn-accept:hover {
+    background: var(--btn-accept-bg);
+    border-color: var(--btn-accept-border);
+    color: var(--accent-green);
+    box-shadow: 0 0 12px rgba(0, 255, 136, 0.3);
+}
+
+.panel-footer {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 12px;
+}
+
+/* Responsividad para móviles pequeños */
+@media (max-width: 400px) {
+    .access-panel {
+        padding: 20px 15px;
+    }
+
+    .keypad-btn {
+        height: 52px;
+        font-size: 1.2rem;
+    }
+
+    .btn-clear,
+    .btn-accept {
+        font-size: 0.8rem;
+    }
+
+    .display-digits {
+        font-size: 1.8rem;
+    }
+}

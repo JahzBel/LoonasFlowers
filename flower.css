@@ -1,0 +1,195 @@
+/* ---------------------------------------------
+   Base. Sin animation ni @keyframes:
+   todo el movimiento lo controla Anime.js
+   --------------------------------------------- */
+
+@import url('tulipan.css');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --paper: #e7ebe6;
+  --ink: #24302b;
+  --petal: #f0b429;
+  --petal-off: #b7ae91;
+  --stem: #3f7d4e;
+  --core: #6b4423;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Iowan Old Style", Georgia, serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;          /* red de seguridad contra desbordes */
+}
+
+/* Contenedor alto: su altura es la "duración" del scroll */
+.scroll-stage {
+  position: relative;
+  height: 320vh;
+}
+
+/* El escenario se queda fijo mientras el contenedor pasa.
+   svh = "small viewport height": evita los saltos de la barra
+   de direcciones en iOS y Android */
+.stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4rem;
+  padding: 1.5rem;
+  overflow: hidden;
+}
+
+.stage h1 {
+  font-size: clamp(1.25rem, 3vw, 2rem);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+}
+
+/* Título de la animación (es un <p>, no un heading) */
+.stage-title {
+  max-width: 22ch;
+  text-align: center;
+  text-wrap: balance;
+  font-size: clamp(1.1rem, 4.6vw, 1.9rem);
+  font-weight: 400;
+  line-height: 1.35;
+}
+
+/* --- La flor tipográfica --- */
+
+.msg-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;            /* Anime.js lo lleva a 0 */
+  font-size: clamp(2.25rem, 11vw, 4.5rem);
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* Las tres piezas ocupan una casilla idéntica de 1em.
+   Esto hace que los desplazamientos en em sean exactos
+   y que la flor escale sola con el font-size. */
+.msg-wrapper > div {
+  position: relative;
+  width: 1em;
+  height: 1em;
+  display: grid;
+  place-items: center;
+}
+
+.pettal-wrapper { z-index: 1; }
+.center-wrapper { z-index: 2; color: var(--ink); }
+.tallo-wrapper  { z-index: 0; color: var(--ink); transform-origin: top center; }
+
+.petal {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--petal-off);
+}
+
+.hint {
+  position: absolute;
+  bottom: 2rem;
+  font-family: system-ui, sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  opacity: 0.55;
+}
+
+/* Contenido después de la animación */
+.space-wrapper {
+  min-height: 60vh;
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+}
+
+/* ---------------------------------------------
+   Slider por scroll
+   La altura de .slides la calcula flower.js
+   --------------------------------------------- */
+
+.slides {
+  display: block;
+  position: relative;
+  min-height: 0;
+  padding: 0;
+}
+
+.slides-viewport {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 2rem 1.5rem;
+  overflow: hidden;
+}
+
+/* Todas las frases ocupan la misma celda: se superponen */
+.slide {
+  grid-area: 1 / 1;
+  max-width: 30ch;
+  text-align: center;
+  text-wrap: pretty;
+  font-size: clamp(1.1rem, 4.4vw, 1.9rem);
+  line-height: 1.5;
+  opacity: 0;
+  will-change: opacity, transform;
+}
+
+.slide:first-child { opacity: 1; }
+
+/* ---------------------------------------------
+   Tulipanes: escalado proporcional
+   flower.js calcula --s para que la fila quepa
+   en el ancho disponible. El margin negativo
+   recupera el espacio que sobra al encoger.
+   --------------------------------------------- */
+
+.flower-main,
+.flower-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 2rem;
+  transform: scale(var(--s, 1));
+  transform-origin: top center;
+  margin-bottom: calc((var(--s, 1) - 1) * 480px);
+}
+
+/* Los tulipanes no deben encogerse: se escalan enteros */
+.flower-main .container,
+.flower-wrapper .container {
+  flex: 0 0 auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-stage { height: 100svh; }
+  .slides { height: auto !important; }
+  .slides-viewport { position: static; height: auto; display: block; }
+  .slide { opacity: 1 !important; transform: none !important; margin-block: 2.5rem; }
+  .flower .flower,
+  .flower-main .flower { animation: none; }
+}
